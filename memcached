@@ -79,13 +79,15 @@ fi;
 CONFIG_NUM=${#CONFIGS[@]}
 for ((i=0; i < $CONFIG_NUM; i++)); do
     NAME=${CONFIGS[${i}]}
+    . $CONFDIR/$NAME
     PIDFILE="/var/run/memcached/${NAME}.pid"
+    DAEMONARGS="-d -p $PORT -u $USER -m $CACHESIZE -c $MAXCONN -P $PIDFILE"
 
     case "$1" in
         start)
             echo -n "Starting $DESC: "
             if [ $ENABLE_MEMCACHED = yes ]; then
-                start_daemon -p $PIDFILE $DAEMON -p $PORT -u $USER -m $CACHESIZE -c $MAXCONN
+                start_daemon -p $PIDFILE $DAEMON $DAEMONARGS
                 echo "$NAME."
             else
                 echo "$NAME disabled in $CONFDIR/memcached."
@@ -109,14 +111,15 @@ for ((i=0; i < $CONFIG_NUM; i++)); do
             rm -f $PIDFILE
             if [ $ENABLE_MEMCACHED = yes ]; then
                 sleep 1
-                start_daemon -p $PIDFILE $DAEMON -p $PORT -u $USER -m $CACHESIZE -c $MAXCONN
+                start_daemon -p $PIDFILE $DAEMON $DAEMONARGS
                 echo "$NAME."
             else
                 echo "$NAME disabled in $CONFDIR/memcached."
             fi
             ;;
         status)
-            pidofproc -p $PIDFILE $DAEMON && exit 0 || exit $?
+            echo -n "$NAME: "
+            echo `pidofproc -p $PIDFILE $DAEMON`
             ;;
         *)
             N=/etc/init.d/$NAME
