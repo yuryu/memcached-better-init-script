@@ -36,9 +36,20 @@ works caching [drupal](http://drupal.org) menus. Providing a service
 before provided by the `cache_menu` database table. You could name the
 specific memcached server like this:
 
-    memcached-server-cache_menu.conf
+    memcached-server-cache_menu
 
 for example.
+
+## Configuration example
+
+Each file under `/etc/sysconfig` defines memcached parameters as environment variables.
+`OPTIONS` may contain any additional options.
+
+    PORT="11212"
+    USER="memcached"
+    MAXCONN="1024"
+    CACHESIZE="64"
+    OPTIONS=""
 
 ## Installation (confirmed on CentOS 6.4)
 
