@@ -2,23 +2,22 @@
 
 ## Introduction
 
-This is an init script for [memcached](http://www.memcached.org/) that uses a **specific**
-directory for the memcached configuration: `/etc/memcached`.
+This is an init script for [memcached](http://www.memcached.org/) that allows to run
+multiple instances of memcached based on configurations under `/etc/sysconfig`.
 
-It's th erefore much easier to manage your memcache configuration since
-it's now restricted to a specific subdirectory of `/etc`. 
+This script should run on any LSB-compliant environments while the original script is intended for Debian/Ubuntu only.
 
 ## Multiple server layout
 
 Now it's easy to implement a multiserver setup. Just copy each file to
 a file named:
     
-    /etc/memcached_server1.conf
-    /etc/memcached_server2.conf
+    /etc/sysconfig/memcached-server1
+    /etc/sysconfig/memcached-server2
             .
             .
             .
-    /etc/memcached_serverN.conf
+    /etc/sysconfig/memcached-serverN
    
 Now you can either start/stop/restart all of your servers with a
 single command like, for example:
@@ -32,42 +31,28 @@ this:
 
 Of course the numeric naming of the files is a mere convenience you
 can **name** them as you wish as long as you maintain the pattern of
-the underscore for separating the server name. For example, server 2
+the dash for separating the server name. For example, server 2
 works caching [drupal](http://drupal.org) menus. Providing a service
 before provided by the `cache_menu` database table. You could name the
 specific memcached server like this:
 
-    memcached_server_cache_menu.conf
+    memcached-server-cache_menu.conf
 
 for example.
 
-## Installation alongside the Debian Wheezy Memcached package
+## Installation (confirmed on CentOS 6.4)
 
- 1. Create the `/etc/memcached` directory.
- 
- 2. Clone the repo 
+ 1. Clone the repo 
     
-        git clone git://github.com/perusio/memcached-better-init-script.git
-        
- 3. Move your memcached configuration file(s) to `/etc/memcached`. 
- 
- 4. Copy this script to `/etc/init.d`.
- 
- 5. Issue `service memcached force-reload`
- 
- 6. Done.
+        git clone git://github.com/yuryu/memcached-better-init-script.git
 
-## For installations alongside the Debian Squeeze Memcached package you'll need to edit another file
-
-    /usr/share/memcached/scripts/start-memcached
-    
-    Around line 27, once the $pidfile variable has been initially set you'll need to implement the below 4 lines
-    
-    if (scalar(@ARGV) == 2) {
-        $etcfile = shift(@ARGV);
-        $pidfile = shift(@ARGV);
-    }
-
+ 2. Copy your memcached configuration file(s) under `/etc/sysconfig` to `/etc/sysconfig/memcached-server1`, `/etc/sysconfig/memcached-server2`, etc.
+ 
+ 3. Copy this script to `/etc/init.d`.
+ 
+ 4. Issue `service memcached force-reload`
+ 
+ 5. Done.
 
 
 ## Credits
