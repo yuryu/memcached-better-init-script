@@ -81,7 +81,7 @@ for ((i=0; i < $CONFIG_NUM; i++)); do
     NAME=${CONFIGS[${i}]}
     . $CONFDIR/$NAME
     PIDFILE="/var/run/memcached/${NAME}.pid"
-    DAEMONARGS="-d -p $PORT -u $USER -m $CACHESIZE -c $MAXCONN -P $PIDFILE"
+    DAEMONARGS="-d -p $PORT -u $USER -m $CACHESIZE -c $MAXCONN -P $PIDFILE $OPTIONS"
 
     case "$1" in
         start)
