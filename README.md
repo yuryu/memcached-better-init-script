@@ -53,6 +53,8 @@ Each file under `/etc/sysconfig` defines memcached parameters as environment var
 
 ## Installation (confirmed on CentOS 6.4)
 
+If you are using CentOS (or any other RHEL based distributions), redhat-lsb-core package is required.
+
  1. Clone the repo 
     
         git clone git://github.com/yuryu/memcached-better-init-script.git
