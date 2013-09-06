@@ -70,3 +70,5 @@ Each file under `/etc/sysconfig` defines memcached parameters as environment var
 
 The original init script is part of the debian testing distribution
 [`wheezy`](http://packages.debian.org/wheezy/memcached). YMMV on other distrubutions.
+
+This fork is baesd on the work by [António P. P. Almeida](https://github.com/perusio).
